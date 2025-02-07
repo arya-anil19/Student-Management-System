@@ -25,9 +25,9 @@ jobs:
           username: aryaanil8319@gmail.com
           password: Arya.Anil@8319
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/student-management-system:latest .
+        run: docker build -t aryaanil8319@gmail.com/student-management-system:latest .
       - name: Push Docker Image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/student-management-system:latest
+        run: docker push aryaanil8319@gmail.com/student-management-system:latest
 
 
   deploy:
@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Deploy Application
         run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/student-management-system:latest
+          docker pull aryaanil8319@gmail.com/student-management-system:latest
           docker stop student-management || true
           docker rm student-management || true
-          docker run -d -p 8080:8080 --name student-management ${{ secrets.DOCKER_USERNAME }}/student-management-system:latest
+          docker run -d -p 8080:8080 --name student-management aryaanil8319@gmail.com/student-management-system:latest
