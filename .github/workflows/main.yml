@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Runs on pushes to main branch
+      - main  # Runs on push to the main branch
   pull_request:
     branches:
       - main
@@ -19,9 +19,12 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
-      # Build Java application before creating Docker image
+      # 🛠 FIX: Navigate to the correct directory where pom.xml exists
       - name: Build Java Application
-        run: mvn clean package -DskipTests
+        run: |
+          cd Student-Management-System  # Change directory if needed
+          ls -la  # Debugging: Check if pom.xml is present
+          mvn clean package -DskipTests  # Run Maven build
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -30,7 +33,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/student-management-system:latest .
+        run: |
+          cd Student-Management-System  # Ensure we are in the correct directory
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/student-management-system:latest .
 
       - name: Push Docker Image to Docker Hub
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/student-management-system:latest
