@@ -1,14 +1,14 @@
-# Use a base image with OpenJDK (adjust this if you're using a different stack)
-FROM openjdk:11-jre-slim
+# Use a base image with OpenJDK (adjust if using a different Java version)
+FROM openjdk:17-jdk-slim
 
 # Set working directory inside the container
 WORKDIR /app
 
-# Copy the built JAR file (assuming you build your JAR using Maven or Gradle)
-COPY target/student-management-system.jar /app/student-management-system.jar
+# Copy the built JAR file (update path if needed)
+COPY target/student-management-system.jar /app/app.jar
 
-# Expose the port your app will run on (e.g., 8080 for a typical web app)
+# Expose the port your app will run on
 EXPOSE 8080
 
-# Command to run your application
-ENTRYPOINT ["java", "-jar", "student-management-system.jar"]
+# Command to run the application
+CMD ["java", "-jar", "/app/app.jar"]
